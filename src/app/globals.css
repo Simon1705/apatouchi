@@ -1,0 +1,391 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-charcoal: var(--charcoal);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: var(--radius);
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+}
+
+:root {
+  --background: #f3efe6;
+  --foreground: #252824;
+  --card: #fffdf8;
+  --card-foreground: #252824;
+  --popover: #fffdf8;
+  --popover-foreground: #252824;
+  --primary: #b84c33;
+  --primary-foreground: #fffaf5;
+  --secondary: #ebe5d9;
+  --secondary-foreground: #29322f;
+  --muted: #ebe5d9;
+  --muted-foreground: #656a63;
+  --accent: #f6ddd5;
+  --accent-foreground: #7b2f21;
+  --accent-soft: #f6ddd5;
+  --destructive: #a43f3a;
+  --border: #d8d1c4;
+  --input: #cbc3b5;
+  --ring: #146c94;
+  --charcoal: #29322f;
+  --success: #496b58;
+  --success-soft: #dce9df;
+  --warning: #785719;
+  --warning-soft: #f4e9c9;
+  --radius: 0.75rem;
+  --font-body: "Avenir Next", Avenir, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  --font-display: Baskerville, "Iowan Old Style", "Yu Mincho", serif;
+  --nav-height: 78px;
+}
+
+.dark {
+  --background: #242825;
+  --foreground: #f5f0e6;
+  --card: #303632;
+  --card-foreground: #f5f0e6;
+  --popover: #303632;
+  --popover-foreground: #f5f0e6;
+  --primary: #e1846e;
+  --primary-foreground: #2a1712;
+  --secondary: #3a403c;
+  --secondary-foreground: #f5f0e6;
+  --muted: #3a403c;
+  --muted-foreground: #bdc2bb;
+  --accent: #53362f;
+  --accent-foreground: #ffdcd2;
+  --accent-soft: #53362f;
+  --destructive: #ee8e87;
+  --border: rgba(255, 250, 240, 0.14);
+  --input: rgba(255, 250, 240, 0.2);
+  --ring: #70b7d5;
+  --charcoal: #18201d;
+  --success: #9bc9a8;
+  --success-soft: #294035;
+  --warning: #f0c76d;
+  --warning-soft: #4c4229;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    background: #d7d1c5;
+    font-family: var(--font-body);
+    /* Jaga field/form yang ter-focus oleh keyboard atau auto-advance tetap
+       terlihat di bawah .shell-utility-bar yang sticky (72px + safe-area + jarak). */
+    scroll-padding-top: calc(80px + env(safe-area-inset-top));
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    background:
+      radial-gradient(circle at 20% 8%, rgba(255, 255, 255, 0.55), transparent 28%),
+      #d7d1c5;
+    color: var(--foreground);
+    font-synthesis: none;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  a:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--ring) 72%, white);
+    outline-offset: 3px;
+  }
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+/*
+ * Halaman login harus muat satu layar penuh tanpa scroll pada ponsel portrait
+ * (target terkecil 360x640). Aturan ini memangkas copy pendukung dan jarak hero
+ * di viewport pendek; form login tidak pernah dipangkas karena itu jalur utama.
+ *
+ * `.login-hero` sengaja mengatur margin sendiri (bukan utility `mb-*` di JSX):
+ * aturan di luar `@layer` menang atas utilitas Tailwind, jadi satu pemilik
+ * jarak membuat hasil akhir bisa dibaca dari satu tempat.
+ */
+.login-hero {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-height: 740px) {
+  .login-hero {
+    margin-bottom: 0.75rem;
+  }
+
+  .login-hero-copy {
+    display: none;
+  }
+}
+
+/*
+ * Baris dua kolom untuk pasangan field pendek (hari + jam, jumlah + prioritas,
+ * anggota + tanggal). Bukan sekadar pengganti `grid grid-cols-2 gap-3`, karena
+ * control native (`select`, `type=time`, `type=date`, `type=number`) punya
+ * intrinsic min-width sendiri: item grid yang dibiarkan `min-width: auto` akan
+ * menolak menyusut sekecil track, lalu kotaknya meluber keluar kartu.
+ *
+ * Dua hal yang membuat baris ini aman:
+ * - `minmax(0, 1fr)` pada track + `min-width: 0` pada item, jadi lebar kolom
+ *   benar-benar ditentukan container, bukan isi control;
+ * - satu kolom sampai 430px. Angka itu bukan perkiraan: .mobile-shell maksimal
+ *   430px, sehingga dua kolom di bawahnya cuma ±120-155px — lebih sempit daripada
+ *   yang dibutuhkan `select` (panah bawaan memakan ±24px) dan field jam/tanggal
+ *   (intrinsic ±132px). Mulai 430px tiap track ±175px, cukup untuk kedua control.
+ *
+ * Jarak antar baris saat satu kolom sengaja disamakan dengan ritme `space-y-4`
+ * form (1rem): dengan 0.75rem label field berikutnya terbaca seperti keterangan
+ * field di atasnya. Dua kolom boleh lebih rapat karena jelas berdampingan.
+ */
+.form-grid-pair {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.form-grid-pair > * {
+  min-width: 0;
+}
+
+@media (min-width: 430px) {
+  .form-grid-pair {
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/*
+ * WebKit memberi `input[type=time]` / `[type=date]` ukuran intrinsik sendiri yang
+ * menembus `width: 100%` dari komponen Input, sehingga kotaknya meluber keluar
+ * kartu di iOS (padding ikut menambah lebar karena control tidak selalu ikut
+ * `box-sizing` warisan). Empat deklarasi ini menutup tiga mekanisme berbeda:
+ * `box-sizing` (padding tidak menambah lebar), `max-width` + `min-width: 0`
+ * (batasi dari dua sisi), `field-sizing: fixed` (Chrome/Safari baru: ukuran
+ * ditentukan CSS, bukan isi). Yang tidak mendukung `field-sizing` melewati
+ * deklarasi itu tanpa efek samping.
+ */
+input[type="time"],
+input[type="date"] {
+  box-sizing: border-box;
+  field-sizing: fixed;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.mobile-shell {
+  position: relative;
+  width: min(100%, 430px);
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 auto;
+  /* `clip`, bukan `hidden`: `overflow-x: hidden` memaksa `overflow-y` ikut
+     menjadi `auto`, sehingga .mobile-shell jadi scroll container sendiri dan
+     `position: sticky` pada .shell-utility-bar berhenti menempel ke viewport
+     (header ikut lolos ke atas). `clip` memotong konten yang melebar tanpa
+     membuat scroll container. Baris `hidden` di atas adalah fallback untuk
+     peramban lama: di sana header cukup kembali berperilaku statis. */
+  overflow-x: hidden;
+  overflow-x: clip;
+  background:
+    linear-gradient(rgba(49, 47, 42, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(49, 47, 42, 0.024) 1px, transparent 1px),
+    var(--background);
+  background-size: 24px 24px;
+  box-shadow: 0 0 60px rgba(43, 38, 30, 0.15);
+}
+
+.shell-utility-bar {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: max(0.75rem, env(safe-area-inset-top)) 1.125rem 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  /* Sticky: butuh z-index di bawah bottom-navigation (40) dan latar yang hampir
+     penuh + blur, karena 94% transparan membuat daftar panjang tembus samar
+     saat di-scroll di bawah bar. */
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--background) 97%, transparent);
+  backdrop-filter: saturate(180%) blur(8px);
+}
+
+.shell-content {
+  padding: 1.5rem 1.125rem calc(var(--nav-height) + 2rem + env(safe-area-inset-bottom));
+}
+
+.bottom-navigation {
+  position: fixed;
+  z-index: 40;
+  bottom: 0;
+  left: 50%;
+  display: grid;
+  width: min(100%, 430px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0.35rem 0.5rem max(0.35rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 96%, transparent);
+  box-shadow: 0 -8px 26px rgba(63, 54, 42, 0.08);
+}
+
+.bottom-navigation-item {
+  display: flex;
+  min-height: 58px;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  border-radius: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.bottom-navigation-item[data-active="true"] {
+  background: var(--accent-soft);
+  color: var(--primary);
+}
+
+.bottom-navigation-item:active {
+  transform: translateY(1px);
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.ambient-orb-one {
+  top: -8rem;
+  right: -7rem;
+  width: 19rem;
+  height: 19rem;
+  border: 1px solid rgba(184, 76, 51, 0.14);
+  box-shadow: inset 0 0 0 3.5rem rgba(184, 76, 51, 0.045);
+}
+
+.ambient-orb-two {
+  bottom: -10rem;
+  left: -8rem;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(73, 107, 88, 0.08);
+}
+
+.animate-page-in {
+  animation: page-in 360ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 350px) {
+  .shell-content {
+    padding-right: 0.875rem;
+    padding-left: 0.875rem;
+  }
+}
+
+@media (min-width: 700px) {
+  .mobile-shell {
+    min-height: calc(100svh - 48px);
+    margin-block: 24px;
+    border-radius: 28px;
+  }
+
+  /* Sticky menempel ke viewport, bukan ke kartu: di breakpoint ini shell
+     berbingkai rounded dengan margin 24px, jadi bar akan naik melewati bingkai
+     dan daftar menyelinap di celah atas. Kembalikan ke posisi statis. */
+  .shell-utility-bar {
+    position: static;
+  }
+
+  .bottom-navigation {
+    bottom: 24px;
+    border-radius: 0 0 28px 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
