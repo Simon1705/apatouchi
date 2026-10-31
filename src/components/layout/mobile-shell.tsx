@@ -1,10 +1,9 @@
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { logout } from "@/app/(protected)/actions";
 import { BottomNavigation } from "@/components/layout/bottom-navigation";
-import { Button } from "@/components/ui/button";
+import { LogoutButton } from "@/features/auth/logout-button";
 
 export type MobileShellProps = {
   children: ReactNode;
@@ -55,21 +54,16 @@ export function MobileShell({ children, userLabel }: MobileShellProps) {
             aria-hidden="true"
           />
         </Link>
-        {/* `suppressHydrationWarning`: Chrome menandai elemen form dengan
-            atribut internal (mis. `__gcruniqueid`) setelah HTML dikirim,
-            yang memicu peringatan hidrasi tanpa ada data yang benar-benar beda. */}
-        <form action={logout} suppressHydrationWarning>
-          <Button
-            type="submit"
-            variant="ghost"
-            size="icon-lg"
-            title="Keluar"
-            aria-label="Keluar dari akun"
-            className="size-11 text-muted-foreground hover:text-destructive"
-          >
-            <LogOut aria-hidden="true" />
-          </Button>
-        </form>
+        {/* Indikator selama aksi keluar berjalan ditangani `LogoutButton` lewat
+            `useFormStatus`, termasuk `suppressHydrationWarning` pada form-nya —
+            Chrome menandai elemen form dengan atribut internal (mis.
+            `__gcruniqueid`) setelah HTML dikirim, yang memicu peringatan hidrasi
+            tanpa ada data yang benar-benar beda. */}
+        <LogoutButton
+          variant="ghost"
+          size="icon-lg"
+          className="size-11 text-muted-foreground hover:text-destructive"
+        />
       </header>
 
       <main className="shell-content animate-page-in">{children}</main>

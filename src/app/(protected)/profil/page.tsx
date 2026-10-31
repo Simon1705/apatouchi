@@ -1,14 +1,13 @@
-import { Fingerprint, LogOut } from "lucide-react";
+import { Fingerprint } from "lucide-react";
 import type { ReactNode } from "react";
 import { connection } from "next/server";
 
-import { logout } from "@/app/(protected)/actions";
 import {
   LoadErrorNotice,
   SupabaseSetupNotice,
 } from "@/components/layout/household-notices";
 import { SubpageHeader } from "@/components/layout/subpage-header";
-import { Button } from "@/components/ui/button";
+import { LogoutButton } from "@/features/auth/logout-button";
 import { PasskeyManager } from "@/features/auth/passkeys/passkey-manager";
 import {
   fetchMembershipSummary,
@@ -154,12 +153,12 @@ export default async function ProfilePage() {
         </div>
       </section>
 
-      <form action={logout}>
-        <Button type="submit" variant="destructive" size="lg" className="w-full">
-          <LogOut aria-hidden="true" />
-          Keluar dari akun
-        </Button>
-      </form>
+      <LogoutButton
+        label="Keluar dari akun"
+        variant="destructive"
+        size="lg"
+        className="w-full"
+      />
     </div>
   );
 }
